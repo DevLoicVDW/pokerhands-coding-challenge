@@ -77,8 +77,9 @@ public class DeckTest {
     public void testDeckPickLargeNumber() {
         // Create a Deck of cards
         Deck deck = new Deck();
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> deck.pick(100),
-                "Can not pick more than 52 cards from a deck");
+        // Try to take more cards from the deck than it has available
+        Assertions.assertThrows(NotEnoughCardsInDeckException.class,
+                () -> deck.pick(deck.getNumberOfCards()+1),
+                "Can not pick more cards than are available in the deck");
     }
 }
