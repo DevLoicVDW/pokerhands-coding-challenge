@@ -1,7 +1,7 @@
 # Poker Hand Project
 ## Background
 You have just started work at ACME Gaming Inc and you have been tasked to complete  a digital version of 5 card poker. 
-This is a project that an employee that has left failed to complete.  
+This is a project that an employee, that has left, failed to complete.  
 
 The project simulates a deck of standard playing cards. The deck of cards consists of a group of card objects, with each 
 card having a rank (Ace - King) and a suite (Diamonds, hearts, clubs and spades)
