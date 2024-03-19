@@ -4,7 +4,7 @@ import com.sprinthive.pokerhands.CardRank;
 
 public class StraightHandRank extends HandRank {
 
-    private final CardRank highCardRank;
+    protected final CardRank highCardRank;
 
     public StraightHandRank(CardRank highCardRank) {
         super(HandStrength.STRAIGHT);
@@ -14,10 +14,12 @@ public class StraightHandRank extends HandRank {
         this.highCardRank = highCardRank;
     }
 
+    @Override
     public String describeHand() {
         return "Straight, " + highCardRank + " high";
     }
 
+    @Override
     protected int compareSameRank(HandRank other) {
         return highCardRank.compareTo(((StraightHandRank) other).highCardRank);
     }

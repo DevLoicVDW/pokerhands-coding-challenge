@@ -27,7 +27,7 @@ public class Deck {
         if(numberOfCards > cards.size()){
             throw new NotEnoughCardsInDeckException("Not enough cards in the deck.");
         }
-        //Todo: This method still needs to be implemented
+
         Card[] pickedCards = new Card[numberOfCards];
         
         for(int i = 0; i < numberOfCards; i++){
