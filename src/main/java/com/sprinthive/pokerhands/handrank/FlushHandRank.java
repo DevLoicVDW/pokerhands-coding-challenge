@@ -19,6 +19,7 @@ public class FlushHandRank extends HandRank<FlushHandRank> {
         Collections.reverse(this.cards);
     }
 
+    @Override
     protected int compareSameRank(FlushHandRank other) {
         for (int i = 0; i < cards.size(); i++) {
             Card thisCard = cards.get(i);
@@ -31,6 +32,7 @@ public class FlushHandRank extends HandRank<FlushHandRank> {
         return 0;
     }
 
+    @Override
     public String describeHand() {
         return "Flush, " + cards.get(0).getRank() + " high";
     }

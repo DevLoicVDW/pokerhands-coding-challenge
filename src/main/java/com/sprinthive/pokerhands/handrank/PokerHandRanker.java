@@ -2,26 +2,10 @@ package com.sprinthive.pokerhands.handrank;
 
 import com.sprinthive.pokerhands.Card;
 import com.sprinthive.pokerhands.CardRank;
+import com.sprinthive.pokerhands.Suit;
 
 import java.util.Collections;
 import java.util.List;
-
-/*
- public class BadPokerHandRanker implements HandRanker {
-
-    public HandRank findBestHandRank(List<Card> cards) {
-        if (cards.size() != 5) {
-            return new NotRankableHandRanker(cards);
-        }
-        Collections.sort(cards);
-        Collections.reverse(cards);
-        // High card
-        return new HighCardHandRank(cards);
-    }
-}
- */
-
-import com.sprinthive.pokerhands.Suit;
 
 
 public class PokerHandRanker implements HandRanker {
@@ -35,32 +19,28 @@ public class PokerHandRanker implements HandRanker {
         Collections.sort(cards);
         Collections.reverse(cards);
 
-
         // Check for special cases: straight, flush, straight flush, or royal flush
         boolean isFlush = isFlush(cards);
         boolean isStraight = isStraight(cards);
+        CardRank highCardRank = cards.get(0).getRank(); // Assuming cards are sorted
+        Suit highCardSuit = cards.get(0).getSuit();
 
-        if (isStraight) {
-            // Straight
-            CardRank highCardRank = cards.get(0).getRank(); // Assuming cards are sorted
-            return new HandRank<>(HandStrength.STRAIGHT) {
-                @Override
-                protected int compareSameRank(HandRank other) {
-                    return highCardRank.compareTo(((StraightHandRank) other).highCardRank);
-                }
-
-                @Override
-                public String describeHand() {
-                    return "Straight, " + highCardRank + " high";
-                }
-            };
-        } else {
-            return new HighCardHandRank(cards);
+        if (isFlush && isStraight) {
+            if (isRoyalFlush(cards)) {
+                return new RoyalFlushHandRank(highCardSuit);
+            } else {
+                return new StraightFlushHandRank(highCardRank);
+            }
+        } else if (isFlush) {
+            return new FlushHandRank(cards);
+        } else if (isStraight) {
+            return new StraightHandRank(highCardRank);
         }
 
         // Check for other hand ranks: four of a kind, full house, three of a kind, two pair, or pair
         // ...
-
+        
+        return new HighCardHandRank(cards);
     }
 
     private boolean isFlush(List<Card> cards) {
