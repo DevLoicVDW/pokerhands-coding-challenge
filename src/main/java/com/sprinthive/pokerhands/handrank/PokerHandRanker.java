@@ -4,8 +4,11 @@ import com.sprinthive.pokerhands.Card;
 import com.sprinthive.pokerhands.CardRank;
 import com.sprinthive.pokerhands.Suit;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class PokerHandRanker implements HandRanker {
@@ -35,9 +38,51 @@ public class PokerHandRanker implements HandRanker {
             return new FlushHandRank(cards);
         } else if (isStraight) {
             return new StraightHandRank(highCardRank);
+        } else if (isTwoPair(cards)) {
+            CardRank highPairRank = null;
+            CardRank lowPairRank = null;
+            CardRank kickerRank = null;
+            Map<CardRank, Integer> rankCounts = new HashMap<>();
+            for (Card card : cards) {
+                rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+            }
+            for (Map.Entry<CardRank, Integer> entry : rankCounts.entrySet()) {
+                if (entry.getValue() == 2) {
+                    if (highPairRank == null) {
+                        highPairRank = entry.getKey();
+                    } else {
+                        lowPairRank = entry.getKey();
+                    }
+                } else {
+                    kickerRank = entry.getKey();
+                }
+            }
+            // Determine which pair is higher
+            if (highPairRank.compareTo(lowPairRank) < 0) {
+                // Swap ranks if highPairRank is lower than lowPairRank
+                CardRank temp = highPairRank;
+                highPairRank = lowPairRank;
+                lowPairRank = temp;
+            }
+            return new TwoPairHandRank(highPairRank, lowPairRank, kickerRank);
+        } else if (isOnePair(cards)) {
+            CardRank pairRank = null;
+            List<CardRank> restRanks = new ArrayList<>();
+            Map<CardRank, Integer> rankCounts = new HashMap<>();
+            for (Card card : cards) {
+                rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+            }
+            for (Map.Entry<CardRank, Integer> entry : rankCounts.entrySet()) {
+                if (entry.getValue() == 2) {
+                    pairRank = entry.getKey();
+                } else {
+                    restRanks.add(entry.getKey());
+                }
+            }
+            return new OnePairHandRank(pairRank, restRanks);
         }
 
-        // Check for other hand ranks: four of a kind, full house, three of a kind, two pair, or pair
+        // Check for other hand ranks: four of a kind, full house, three of a kind
         // ...
         
         return new HighCardHandRank(cards);
@@ -54,7 +99,6 @@ public class PokerHandRanker implements HandRanker {
 
         return true;
     }
-    
 
     private boolean isStraight(List<Card> cards) {
         int firstRankValue = cards.get(0).getRank().getValue();
@@ -63,19 +107,63 @@ public class PokerHandRanker implements HandRanker {
                 return false;
             }
         }
+
         return true;
     }
 
     private boolean isRoyalFlush(List<Card> cards) {
-        if (cards.get(0).getRank().getValue() != 10) {
+        if (cards.get(0).getRank().getValue() != 14) {
             return false;
         }
         for (int i = 1; i < cards.size(); i++) {
-            if (cards.get(i).getRank().getValue() != 10 + i) {
+            if (cards.get(i).getRank().getValue() != 14 - i) {
                 return false;
             }
         }
+
         return isFlush(cards);
+    }
+    
+    private boolean isOnePair(List<Card> cards) {
+        Map<CardRank, Integer> rankCounts = new HashMap<>();
+        for (Card card : cards) {
+            rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+        }
+
+        int pairCount = 0;
+        for (int count : rankCounts.values()) {
+            if (count == 2) {
+                pairCount++;
+            }
+        }
+
+        return pairCount == 1;
+    }
+
+    private boolean isTwoPair(List<Card> cards) {
+        Map<CardRank, Integer> rankCounts = new HashMap<>();
+        for (Card card : cards) {
+            rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+        }
+
+        int pairCount = 0;
+        for (int count : rankCounts.values()) {
+            if (count == 2) {
+                pairCount++;
+            }
+        }
+
+        return pairCount == 2;
+    }
+
+    private boolean isThreeOfAKind(List<Card> cards) {
+
+        return false;
+    }
+
+    private boolean isFourOfAKind(List<Card> cards) {
+
+        return false;
     }
 
     // Other methods for checking different hand ranks...
