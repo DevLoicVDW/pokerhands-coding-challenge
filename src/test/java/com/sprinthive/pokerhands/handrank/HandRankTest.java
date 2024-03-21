@@ -26,10 +26,10 @@ public class HandRankTest {
         assertTrue(straightFlushTen.compareTo(straightFlushJack) < 0);
         StraightFlushHandRank straightFlushTenAgain = new StraightFlushHandRank(CardRank.TEN);
         assertTrue(straightFlushTen.compareTo(straightFlushTenAgain) == 0);
-        FourOfAKindHandRank fourOfAKindKing = new FourOfAKindHandRank(CardRank.KING);
+        FourOfAKindHandRank fourOfAKindKing = new FourOfAKindHandRank(CardRank.KING, CardRank.FIVE);
         assertTrue(royalFlushClubs.compareTo(fourOfAKindKing) > 0);
         assertTrue(straightFlushTen.compareTo(fourOfAKindKing) > 0);
-        FourOfAKindHandRank fourOfAKindQueen = new FourOfAKindHandRank(CardRank.QUEEN);
+        FourOfAKindHandRank fourOfAKindQueen = new FourOfAKindHandRank(CardRank.QUEEN, CardRank.SIX);
         assertTrue(fourOfAKindQueen.compareTo(fourOfAKindKing) < 0);
         FullHouseHandRank fullHouseFiveThree = new FullHouseHandRank(CardRank.FIVE, CardRank.THREE);
         assertTrue(royalFlushClubs.compareTo(fullHouseFiveThree) > 0);
@@ -79,14 +79,20 @@ public class HandRankTest {
         assertTrue(flushQueenThree.compareTo(straightKing) > 0);
         StraightHandRank straightNine = new StraightHandRank(CardRank.NINE);
         assertTrue(straightKing.compareTo(straightNine) > 0);
-        ThreeOfAKindHandRank threeOfAKindSix = new ThreeOfAKindHandRank(CardRank.SIX);
+        ArrayList<CardRank> threeOfAKindKickerList = new ArrayList<CardRank>(2);
+        threeOfAKindKickerList.add(CardRank.TWO);
+        threeOfAKindKickerList.add(CardRank.FIVE);
+        ThreeOfAKindHandRank threeOfAKindSix = new ThreeOfAKindHandRank(CardRank.SIX, threeOfAKindKickerList);
         assertTrue(royalFlushClubs.compareTo(threeOfAKindSix) > 0);
         assertTrue(straightFlushTen.compareTo(threeOfAKindSix) > 0);
         assertTrue(fourOfAKindQueen.compareTo(threeOfAKindSix) > 0);
         assertTrue(fullHouseFiveThree.compareTo(threeOfAKindSix) > 0);
         assertTrue(flushQueenThree.compareTo(threeOfAKindSix) > 0);
         assertTrue(straightKing.compareTo(threeOfAKindSix) > 0);
-        ThreeOfAKindHandRank threeOfAKindFive = new ThreeOfAKindHandRank(CardRank.FIVE);
+        ArrayList<CardRank> threeOfAKindKickerList1 = new ArrayList<CardRank>(2);
+        threeOfAKindKickerList.add(CardRank.TWO);
+        threeOfAKindKickerList.add(CardRank.FOUR);
+        ThreeOfAKindHandRank threeOfAKindFive = new ThreeOfAKindHandRank(CardRank.FIVE, threeOfAKindKickerList1);
         assertTrue(threeOfAKindSix.compareTo(threeOfAKindFive) > 0);
         TwoPairHandRank twoPairTenFiveThree = new TwoPairHandRank(CardRank.TEN, CardRank.FIVE, CardRank.THREE);
         assertTrue(royalFlushClubs.compareTo(twoPairTenFiveThree) > 0);
@@ -184,8 +190,12 @@ public class HandRankTest {
     @Test
     public void testFourOfAKindHandRank() {
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new FourOfAKindHandRank(null),
-                "FourOfAKindHandRank should enforce not null rank");
+                () -> new FourOfAKindHandRank(null, null),
+                "FourOfAKindHandRank should enforce not null quad");
+        
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new FourOfAKindHandRank(CardRank.FIVE, null),
+                "FourOfAKindHandRank should enforce not null kicker rank");
     }
 
     @Test
@@ -236,8 +246,11 @@ public class HandRankTest {
     @Test
     public void testThreeOfAKindHandRank() {
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new ThreeOfAKindHandRank(null),
+                () -> new ThreeOfAKindHandRank(null, null),
                 "ThreeOfAKindHandRank should enforce not null rank");
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new ThreeOfAKindHandRank(CardRank.FOUR, null),
+                "ThreeOfAKindHandRank should enforce not null for restRanks");
     }
 
     @Test
