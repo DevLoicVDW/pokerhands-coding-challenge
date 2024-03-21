@@ -6,7 +6,7 @@ public class FourOfAKindHandRank extends HandRank<FourOfAKindHandRank> {
     private final CardRank cardRank;
 
     public FourOfAKindHandRank(CardRank cardRank) {
-        super(HandStrength.FOUR_OF_AS_KIND);
+        super(HandStrength.FOUR_OF_A_KIND);
         if (cardRank == null) {
             throw new IllegalArgumentException("cardRank may not be null for a four of a kind.");
         }

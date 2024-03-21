@@ -34,10 +34,61 @@ public class PokerHandRanker implements HandRanker {
             } else {
                 return new StraightFlushHandRank(highCardRank);
             }
+        } else if (isFourOfAKind(cards)) {
+            Map<CardRank, Integer> rankCounts = new HashMap<>();
+            for (Card card : cards) {
+                rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+            }
+
+            CardRank fourOfAKindRank = null;
+            for (Map.Entry<CardRank, Integer> entry : rankCounts.entrySet()) {
+                if (entry.getValue() == 4) {
+                    fourOfAKindRank = entry.getKey();
+                    break;
+                }
+            }
+            if (fourOfAKindRank != null) {
+                return new FourOfAKindHandRank(fourOfAKindRank);
+            }
+        } else if (isFullHouse(cards)) {
+            Map<CardRank, Integer> rankCounts = new HashMap<>();
+            for (Card card : cards) {
+                rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+            }
+    
+            CardRank tripsRank = null;
+            CardRank pairRank = null;
+            for (Map.Entry<CardRank, Integer> entry : rankCounts.entrySet()) {
+                if (entry.getValue() == 3) {
+                    tripsRank = entry.getKey();
+                } else if (entry.getValue() == 2) {
+                    pairRank = entry.getKey();
+                }
+            }
+    
+            if (tripsRank != null && pairRank != null) {
+                return new FullHouseHandRank(tripsRank, pairRank);
+            }
         } else if (isFlush) {
             return new FlushHandRank(cards);
         } else if (isStraight) {
             return new StraightHandRank(highCardRank);
+        } else if (isThreeOfAKind(cards)) {
+            Map<CardRank, Integer> rankCounts = new HashMap<>();
+            for (Card card : cards) {
+                rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+            }
+
+            CardRank threeOfAKindRank = null;
+            for (Map.Entry<CardRank, Integer> entry : rankCounts.entrySet()) {
+                if (entry.getValue() == 3) {
+                    threeOfAKindRank = entry.getKey();
+                    break;
+                }
+            }
+            if (threeOfAKindRank != null) {
+                return new ThreeOfAKindHandRank(threeOfAKindRank);
+            }
         } else if (isTwoPair(cards)) {
             CardRank highPairRank = null;
             CardRank lowPairRank = null;
@@ -81,10 +132,6 @@ public class PokerHandRanker implements HandRanker {
             }
             return new OnePairHandRank(pairRank, restRanks);
         }
-
-        // Check for other hand ranks: four of a kind, full house, three of a kind
-        // ...
-        
         return new HighCardHandRank(cards);
     }
 
@@ -157,14 +204,52 @@ public class PokerHandRanker implements HandRanker {
     }
 
     private boolean isThreeOfAKind(List<Card> cards) {
-
-        return false;
+        Map<CardRank, Integer> rankCounts = new HashMap<>();
+        for (Card card : cards) {
+            rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+        }
+    
+        for (int count : rankCounts.values()) {
+            if (count == 3) {
+                return true; // Found three cards of the same rank
+            }
+        }
+    
+        return false; // Did not find three cards of the same rank
     }
 
     private boolean isFourOfAKind(List<Card> cards) {
-
-        return false;
+        Map<CardRank, Integer> rankCounts = new HashMap<>();
+        for (Card card : cards) {
+            rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+        }
+    
+        for (int count : rankCounts.values()) {
+            if (count == 4) {
+                return true; // Found four cards of the same rank
+            }
+        }
+    
+        return false; // Did not find four cards of the same rank
     }
 
-    // Other methods for checking different hand ranks...
+    private boolean isFullHouse(List<Card> cards) {
+        Map<CardRank, Integer> rankCounts = new HashMap<>();
+        for (Card card : cards) {
+            rankCounts.put(card.getRank(), rankCounts.getOrDefault(card.getRank(), 0) + 1);
+        }
+    
+        boolean hasThreeOfAKind = false;
+        boolean hasPair = false;
+        for (int count : rankCounts.values()) {
+            if (count == 3) {
+                hasThreeOfAKind = true;
+            } else if (count == 2) {
+                hasPair = true;
+            }
+        }
+    
+        return hasThreeOfAKind && hasPair;
+    }
+
 }

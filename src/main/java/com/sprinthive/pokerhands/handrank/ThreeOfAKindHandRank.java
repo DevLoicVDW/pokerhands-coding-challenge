@@ -6,7 +6,7 @@ public class ThreeOfAKindHandRank extends HandRank<ThreeOfAKindHandRank> {
     private final CardRank cardRank;
 
     public ThreeOfAKindHandRank(CardRank cardRank) {
-        super(HandStrength.THREE_OF_AS_KIND);
+        super(HandStrength.THREE_OF_A_KIND);
         if (cardRank == null) {
             throw new IllegalArgumentException("cardRank may not be null for a three of a kind hand");
         }
