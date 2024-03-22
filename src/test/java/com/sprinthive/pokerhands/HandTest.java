@@ -160,28 +160,6 @@ public class HandTest {
     }
 
     @Test
-    public void testCompareFlushToStraight() {
-        ArrayList<Card> flushList = new ArrayList<Card>(5);
-        flushList.add(new Card(CardRank.NINE, Suit.CLUBS));
-        flushList.add(new Card(CardRank.THREE, Suit.CLUBS));
-        flushList.add(new Card(CardRank.QUEEN, Suit.CLUBS));
-        flushList.add(new Card(CardRank.JACK, Suit.CLUBS));
-        flushList.add(new Card(CardRank.TEN, Suit.CLUBS));
-        Hand flushHand = new Hand(flushList);
-        assertEquals("Flush, queen high", flushHand.describeHandRank());
-
-        ArrayList<Card> straightList = new ArrayList<Card>(5);
-        straightList.add(new Card(CardRank.NINE, Suit.CLUBS));
-        straightList.add(new Card(CardRank.KING, Suit.HEARTS));
-        straightList.add(new Card(CardRank.QUEEN, Suit.CLUBS));
-        straightList.add(new Card(CardRank.JACK, Suit.CLUBS));
-        straightList.add(new Card(CardRank.TEN, Suit.CLUBS));
-        Hand straightHand = new Hand(straightList);
-        assertEquals("Straight, king high", straightHand.describeHandRank());
-        assertTrue(flushHand.compareTo(straightHand) > 0);
-    }
-
-    @Test
     public void testCompareStraightToStraight() {
         ArrayList<Card> lowStraightList = new ArrayList<Card>(5);
         lowStraightList.add(new Card(CardRank.NINE, Suit.CLUBS));
@@ -490,7 +468,7 @@ public class HandTest {
     }
 
     @Test
-    public void testCompareStraightFlushToFourOfAKind() {
+    public void testCompareStraightFlushToOther() {
         ArrayList<Card> straightFlushList = new ArrayList<>(5);
         straightFlushList.add(new Card(CardRank.NINE, Suit.CLUBS));
         straightFlushList.add(new Card(CardRank.TEN, Suit.CLUBS));
@@ -500,16 +478,485 @@ public class HandTest {
         Hand straightFlushHand = new Hand(straightFlushList);
         assertEquals("Straight flush, ten high", straightFlushHand.describeHandRank());
 
-        ArrayList<Card> fourOfAKind = new ArrayList<Card>(5);
-        fourOfAKind.add(new Card(CardRank.NINE, Suit.CLUBS));
-        fourOfAKind.add(new Card(CardRank.NINE, Suit.HEARTS));
-        fourOfAKind.add(new Card(CardRank.NINE, Suit.DIAMONDS));
-        fourOfAKind.add(new Card(CardRank.NINE, Suit.SPADES));
-        fourOfAKind.add(new Card(CardRank.TEN, Suit.CLUBS));
-        Hand fourOfAKindHand = new Hand(fourOfAKind);
+        ArrayList<Card> fourOfAKindList = new ArrayList<Card>(5);
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.CLUBS));
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.HEARTS));
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.DIAMONDS));
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.SPADES));
+        fourOfAKindList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        Hand fourOfAKindHand = new Hand(fourOfAKindList);
         assertEquals("4 of a kind of nines", fourOfAKindHand.describeHandRank());
 
         assertTrue(straightFlushHand.compareTo(fourOfAKindHand) > 0);
+
+        ArrayList<Card> fullHouseList = new ArrayList<>(5);
+        fullHouseList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        fullHouseList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        fullHouseList.add(new Card(CardRank.SIX, Suit.SPADES));
+        fullHouseList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        fullHouseList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        Hand fullHouseHand = new Hand(fullHouseList);
+        assertEquals("Full house, sixs over twos", fullHouseHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(fullHouseHand) > 0);
+
+        ArrayList<Card> flushList = new ArrayList<>(5);
+        flushList.add(new Card(CardRank.ACE, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        Hand flushHand = new Hand(flushList);
+        assertEquals("Flush, ace high", flushHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(flushHand) > 0);
+
+        ArrayList<Card> straightList = new ArrayList<>(5);
+        straightList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        straightList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        straightList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        straightList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        straightList.add(new Card(CardRank.SIX, Suit.CLUBS));
+        Hand straightHand = new Hand(straightList);
+        assertEquals("Straight, six high", straightHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(straightHand) > 0);
+
+        ArrayList<Card> threeOfAKindList = new ArrayList<>(5);
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.SPADES));
+        threeOfAKindList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        threeOfAKindList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand threeOfAKindHand = new Hand(threeOfAKindList);
+        assertEquals("3 of a kind of sixs", threeOfAKindHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(threeOfAKindHand) > 0);
+
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(twoPairHand) > 0);
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(straightFlushHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareFourOfAKindToOther() {
+        ArrayList<Card> fourOfAKindList = new ArrayList<Card>(5);
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.CLUBS));
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.HEARTS));
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.DIAMONDS));
+        fourOfAKindList.add(new Card(CardRank.NINE, Suit.SPADES));
+        fourOfAKindList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        Hand fourOfAKindHand = new Hand(fourOfAKindList);
+        assertEquals("4 of a kind of nines", fourOfAKindHand.describeHandRank());
+
+        ArrayList<Card> fullHouseList = new ArrayList<>(5);
+        fullHouseList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        fullHouseList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        fullHouseList.add(new Card(CardRank.SIX, Suit.SPADES));
+        fullHouseList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        fullHouseList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        Hand fullHouseHand = new Hand(fullHouseList);
+        assertEquals("Full house, sixs over twos", fullHouseHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(fullHouseHand) > 0);
+
+        ArrayList<Card> flushList = new ArrayList<>(5);
+        flushList.add(new Card(CardRank.ACE, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        Hand flushHand = new Hand(flushList);
+        assertEquals("Flush, ace high", flushHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(flushHand) > 0);
+
+        ArrayList<Card> straightList = new ArrayList<>(5);
+        straightList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        straightList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        straightList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        straightList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        straightList.add(new Card(CardRank.SIX, Suit.CLUBS));
+        Hand straightHand = new Hand(straightList);
+        assertEquals("Straight, six high", straightHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(straightHand) > 0);
+
+        ArrayList<Card> threeOfAKindList = new ArrayList<>(5);
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.SPADES));
+        threeOfAKindList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        threeOfAKindList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand threeOfAKindHand = new Hand(threeOfAKindList);
+        assertEquals("3 of a kind of sixs", threeOfAKindHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(threeOfAKindHand) > 0);
+
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(twoPairHand) > 0);
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(fourOfAKindHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareFullHouseToOther() {
+        ArrayList<Card> fullHouseList = new ArrayList<>(5);
+        fullHouseList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        fullHouseList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        fullHouseList.add(new Card(CardRank.SIX, Suit.SPADES));
+        fullHouseList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        fullHouseList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        Hand fullHouseHand = new Hand(fullHouseList);
+        assertEquals("Full house, sixs over twos", fullHouseHand.describeHandRank());
+
+        ArrayList<Card> flushList = new ArrayList<>(5);
+        flushList.add(new Card(CardRank.ACE, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        Hand flushHand = new Hand(flushList);
+        assertEquals("Flush, ace high", flushHand.describeHandRank());
+
+        assertTrue(fullHouseHand.compareTo(flushHand) > 0);
+
+        ArrayList<Card> straightList = new ArrayList<>(5);
+        straightList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        straightList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        straightList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        straightList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        straightList.add(new Card(CardRank.SIX, Suit.CLUBS));
+        Hand straightHand = new Hand(straightList);
+        assertEquals("Straight, six high", straightHand.describeHandRank());
+
+        assertTrue(fullHouseHand.compareTo(straightHand) > 0);
+
+        ArrayList<Card> threeOfAKindList = new ArrayList<>(5);
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.SPADES));
+        threeOfAKindList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        threeOfAKindList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand threeOfAKindHand = new Hand(threeOfAKindList);
+        assertEquals("3 of a kind of sixs", threeOfAKindHand.describeHandRank());
+
+        assertTrue(fullHouseHand.compareTo(threeOfAKindHand) > 0);
+
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        assertTrue(fullHouseHand.compareTo(twoPairHand) > 0);
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(fullHouseHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(fullHouseHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareFlushToOther() {
+        ArrayList<Card> flushList = new ArrayList<>(5);
+        flushList.add(new Card(CardRank.ACE, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        flushList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        flushList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        Hand flushHand = new Hand(flushList);
+        assertEquals("Flush, ace high", flushHand.describeHandRank());
+
+        ArrayList<Card> straightList = new ArrayList<>(5);
+        straightList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        straightList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        straightList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        straightList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        straightList.add(new Card(CardRank.SIX, Suit.CLUBS));
+        Hand straightHand = new Hand(straightList);
+        assertEquals("Straight, six high", straightHand.describeHandRank());
+
+        assertTrue(flushHand.compareTo(straightHand) > 0);
+
+        ArrayList<Card> threeOfAKindList = new ArrayList<>(5);
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.SPADES));
+        threeOfAKindList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        threeOfAKindList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand threeOfAKindHand = new Hand(threeOfAKindList);
+        assertEquals("3 of a kind of sixs", threeOfAKindHand.describeHandRank());
+
+        assertTrue(flushHand.compareTo(threeOfAKindHand) > 0);
+
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        assertTrue(flushHand.compareTo(twoPairHand) > 0);
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(flushHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(flushHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareStraightToOther() {
+        ArrayList<Card> straightList = new ArrayList<>(5);
+        straightList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        straightList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        straightList.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        straightList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        straightList.add(new Card(CardRank.SIX, Suit.CLUBS));
+        Hand straightHand = new Hand(straightList);
+        assertEquals("Straight, six high", straightHand.describeHandRank());
+
+        ArrayList<Card> threeOfAKindList = new ArrayList<>(5);
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.SPADES));
+        threeOfAKindList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        threeOfAKindList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand threeOfAKindHand = new Hand(threeOfAKindList);
+        assertEquals("3 of a kind of sixs", threeOfAKindHand.describeHandRank());
+
+        assertTrue(straightHand.compareTo(threeOfAKindHand) > 0);
+
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        assertTrue(straightHand.compareTo(twoPairHand) > 0);
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(straightHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(straightHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareThreeOfAKindToOther() {
+        ArrayList<Card> threeOfAKindList = new ArrayList<>(5);
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.HEARTS));
+        threeOfAKindList.add(new Card(CardRank.SIX, Suit.SPADES));
+        threeOfAKindList.add(new Card(CardRank.TWO, Suit.CLUBS));
+        threeOfAKindList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand threeOfAKindHand = new Hand(threeOfAKindList);
+        assertEquals("3 of a kind of sixs", threeOfAKindHand.describeHandRank());
+
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        assertTrue(threeOfAKindHand.compareTo(twoPairHand) > 0);
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(threeOfAKindHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(threeOfAKindHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareTwoPairToOther() {
+        ArrayList<Card> twoPairList = new ArrayList<>(5);
+        twoPairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        twoPairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        twoPairList.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        twoPairList.add(new Card(CardRank.THREE, Suit.HEARTS));
+        Hand twoPairHand = new Hand(twoPairList);
+        assertEquals("Two pair, fives and twos", twoPairHand.describeHandRank());
+
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        assertTrue(twoPairHand.compareTo(onePairHand) > 0);
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(twoPairHand.compareTo(highCardHand) > 0);
+    }
+
+    @Test
+    public void testCompareOnePairToOther() {
+        ArrayList<Card> onePairList = new ArrayList<>(5);
+        onePairList.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        onePairList.add(new Card(CardRank.TWO, Suit.HEARTS));
+        onePairList.add(new Card(CardRank.FIVE, Suit.SPADES));
+        onePairList.add(new Card(CardRank.SEVEN, Suit.CLUBS));
+        onePairList.add(new Card(CardRank.EIGHT, Suit.HEARTS));
+        Hand onePairHand = new Hand(onePairList);
+        assertEquals("One pair of twos", onePairHand.describeHandRank());
+
+        ArrayList<Card> highCardList = new ArrayList<>(5);
+        highCardList.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        highCardList.add(new Card(CardRank.SEVEN, Suit.HEARTS));
+        highCardList.add(new Card(CardRank.EIGHT, Suit.SPADES));
+        highCardList.add(new Card(CardRank.TEN, Suit.CLUBS));
+        highCardList.add(new Card(CardRank.JACK, Suit.HEARTS));
+        Hand highCardHand = new Hand(highCardList);
+        assertEquals("High card ace of diamonds", highCardHand.describeHandRank());
+
+        assertTrue(onePairHand.compareTo(highCardHand) > 0);
     }
 
     @Test
