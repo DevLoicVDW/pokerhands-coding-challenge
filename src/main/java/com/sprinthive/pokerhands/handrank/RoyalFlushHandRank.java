@@ -14,11 +14,13 @@ public class RoyalFlushHandRank extends HandRank {
         this.suit = suit;
     }
 
-    public String describeHand() {
-        return "Royal flush of " + suit;
-    }
-
+    @Override
     protected int compareSameRank(HandRank other) {
         return 0;
+    }
+
+    @Override
+    public String describeHand() {
+        return "Royal flush of " + suit;
     }
 }

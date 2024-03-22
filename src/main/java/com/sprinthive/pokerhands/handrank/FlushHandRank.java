@@ -31,7 +31,7 @@ public class FlushHandRank extends HandRank<FlushHandRank> {
         }
         return 0;
     }
-
+    
     @Override
     public String describeHand() {
         return "Flush, " + cards.get(0).getRank() + " high";

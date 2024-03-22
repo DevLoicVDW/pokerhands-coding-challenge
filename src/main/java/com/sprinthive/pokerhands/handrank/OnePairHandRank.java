@@ -24,6 +24,7 @@ public class OnePairHandRank extends HandRank<OnePairHandRank> {
         Collections.reverse(this.rest);
     }
 
+    @Override
     protected int compareSameRank(OnePairHandRank otherHandRank) {
         int result = pair.compareTo(otherHandRank.pair);
         if (result != 0) {
@@ -40,6 +41,7 @@ public class OnePairHandRank extends HandRank<OnePairHandRank> {
         return 0;
     }
 
+    @Override
     public String describeHand() {
         return "One pair of " + pair + "s";
     }

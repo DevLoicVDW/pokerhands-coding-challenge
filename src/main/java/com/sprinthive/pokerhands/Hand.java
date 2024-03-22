@@ -10,11 +10,14 @@ public class Hand implements Comparable<Hand> {
 
     // This should be injected with an IOC container, but let's keep it simple.
     // Just replace BadPokerHandRanker with your own implementation
-    private static HandRanker handRanker = new PokerHandRanker();
-    private HandRank handRank;
+    private static final HandRanker handRanker = new PokerHandRanker();
+    private final HandRank handRank;
 
     public Hand(List<Card> cards) {
-        handRank = handRanker.findBestHandRank(cards);
+        this.handRank = handRanker.findBestHandRank(cards);
+        if (handRank == null) {
+            throw new IllegalArgumentException("Failed to determine hand rank.");
+        }
     }
 
     public String describeHandRank() {

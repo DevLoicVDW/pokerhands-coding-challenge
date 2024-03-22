@@ -29,6 +29,7 @@ public class FourOfAKindHandRank extends HandRank<FourOfAKindHandRank> {
         return kicker.compareTo(otherHandRank.kicker);
     }
 
+    @Override
     public String describeHand() {
         return "4 of a kind of " + cardRank + "s";
     }

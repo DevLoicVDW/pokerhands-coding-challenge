@@ -18,6 +18,7 @@ public class FullHouseHandRank extends HandRank<FullHouseHandRank> {
         this.pair = pair;
     }
 
+    @Override
     protected int compareSameRank(FullHouseHandRank otherHandRank) {
         int result = trips.compareTo(otherHandRank.trips);
         if (result != 0) {
@@ -26,6 +27,7 @@ public class FullHouseHandRank extends HandRank<FullHouseHandRank> {
         return pair.compareTo(otherHandRank.pair);
     }
 
+    @Override
     public String describeHand() {
         return "Full house, " + trips + "s over " + pair + "s";
     }

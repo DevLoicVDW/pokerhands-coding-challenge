@@ -14,11 +14,13 @@ public class StraightFlushHandRank extends HandRank<StraightFlushHandRank> {
         this.highCardRank = highCardRank;
     }
 
-    public String describeHand() {
-        return "Straight flush, " + highCardRank + " high";
-    }
-
+    @Override
     protected int compareSameRank(StraightFlushHandRank other) {
         return highCardRank.compareTo((other).highCardRank);
+    }
+
+    @Override
+    public String describeHand() {
+        return "Straight flush, " + highCardRank + " high";
     }
 }

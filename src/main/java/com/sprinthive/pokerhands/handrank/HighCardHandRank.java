@@ -15,6 +15,7 @@ public class HighCardHandRank extends HandRank<HighCardHandRank> {
         this.cards = cards;
     }
 
+    @Override
     protected int compareSameRank(HighCardHandRank other) {
         for (int i = 0; i < cards.size(); i++) {
             Card thisCard = cards.get(i);
@@ -27,6 +28,7 @@ public class HighCardHandRank extends HandRank<HighCardHandRank> {
         return 0;
     }
 
+    @Override
     public String describeHand() {
         return "High card " + cards.get(0);
     }

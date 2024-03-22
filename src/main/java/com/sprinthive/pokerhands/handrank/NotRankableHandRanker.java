@@ -18,10 +18,12 @@ public class NotRankableHandRanker extends HandRank<NotRankableHandRanker> {
         return 0;
     }
 
+    @Override
     public int compareSameRank(NotRankableHandRanker notRankableHandRanker) {
         return 0;
     }
 
+    @Override
     public String describeHand() {
         return "Can not rank a hand with " + numberOfCards + " card(s).";
     }

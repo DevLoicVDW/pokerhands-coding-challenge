@@ -15,12 +15,12 @@ public class StraightHandRank extends HandRank {
     }
 
     @Override
-    public String describeHand() {
-        return "Straight, " + highCardRank + " high";
+    protected int compareSameRank(HandRank other) {
+        return highCardRank.compareTo(((StraightHandRank) other).highCardRank);
     }
 
     @Override
-    protected int compareSameRank(HandRank other) {
-        return highCardRank.compareTo(((StraightHandRank) other).highCardRank);
+    public String describeHand() {
+        return "Straight, " + highCardRank + " high";
     }
 }

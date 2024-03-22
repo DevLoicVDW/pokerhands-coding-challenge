@@ -23,6 +23,7 @@ public class TwoPairHandRank extends HandRank<TwoPairHandRank> {
         this.kicker = kicker;
     }
 
+    @Override
     protected int compareSameRank(TwoPairHandRank otherHandRank) {
         int result = highPair.compareTo(otherHandRank.highPair);
         if (result != 0) {
@@ -35,6 +36,7 @@ public class TwoPairHandRank extends HandRank<TwoPairHandRank> {
         return kicker.compareTo(otherHandRank.kicker);
     }
 
+    @Override
     public String describeHand() {
         return "Two pair, " + highPair + "s and " + lowPair + "s";
     }
