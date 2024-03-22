@@ -33,6 +33,7 @@ public class TwoPairHandRank extends HandRank<TwoPairHandRank> {
         if (result != 0) {
             return result;
         }
+        // If highPair and lowPair are the same, kickers are compared to find winner.
         return kicker.compareTo(otherHandRank.kicker);
     }
 

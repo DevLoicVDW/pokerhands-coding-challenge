@@ -402,17 +402,17 @@ public class HandTest {
         ArrayList<Card> tripsList1 = new ArrayList<>(5);
         tripsList1.add(new Card(CardRank.ACE, Suit.CLUBS));
         tripsList1.add(new Card(CardRank.ACE, Suit.HEARTS));
-        tripsList1.add(new Card(CardRank.ACE, Suit.DIAMONDS));
         tripsList1.add(new Card(CardRank.KING, Suit.CLUBS));
+        tripsList1.add(new Card(CardRank.ACE, Suit.DIAMONDS));
         tripsList1.add(new Card(CardRank.TEN, Suit.CLUBS));
         Hand tripsHand1 = new Hand(tripsList1);
         assertEquals("3 of a kind of aces", tripsHand1.describeHandRank());
 
         ArrayList<Card> tripsList2 = new ArrayList<>(5);
         tripsList2.add(new Card(CardRank.ACE, Suit.CLUBS));
+        tripsList2.add(new Card(CardRank.QUEEN, Suit.CLUBS));
         tripsList2.add(new Card(CardRank.ACE, Suit.HEARTS));
         tripsList2.add(new Card(CardRank.ACE, Suit.SPADES));
-        tripsList2.add(new Card(CardRank.QUEEN, Suit.CLUBS));
         tripsList2.add(new Card(CardRank.TEN, Suit.CLUBS));
         Hand tripsHand2 = new Hand(tripsList2);
         assertEquals("3 of a kind of aces", tripsHand2.describeHandRank());

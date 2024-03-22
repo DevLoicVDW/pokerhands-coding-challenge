@@ -25,12 +25,13 @@ public class ThreeOfAKindHandRank extends HandRank<ThreeOfAKindHandRank> {
     @Override
     protected int compareSameRank(ThreeOfAKindHandRank otherHandRank) {
         int cmp = cardRank.compareTo(otherHandRank.cardRank);
+
         if (cmp == 0) {
             // Three of a kind ranks are equal, compare kickers
             List<CardRank> thisKickers = new ArrayList<>(restRanks);
             List<CardRank> otherKickers = new ArrayList<>(otherHandRank.restRanks);
-            Collections.sort(thisKickers, Collections.reverseOrder());
-            Collections.sort(otherKickers, Collections.reverseOrder());
+            Collections.sort(thisKickers);
+            Collections.sort(otherKickers);
 
             for (int i = 0; i < thisKickers.size(); i++) {
                 cmp = thisKickers.get(i).compareTo(otherKickers.get(i));
