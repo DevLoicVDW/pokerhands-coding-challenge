@@ -160,6 +160,90 @@ public class HandTest {
     }
 
     @Test
+    public void testHandRank4OfAKindEdge() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.NINE, Suit.CLUBS));
+        cards.add(new Card(CardRank.NINE, Suit.HEARTS));
+        cards.add(new Card(CardRank.NINE, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.NINE, Suit.SPADES));
+        cards.add(new Card(CardRank.NINE, Suit.CLUBS));
+        Hand hand = new Hand(cards);
+        assertEquals("4 of a kind of nines", hand.describeHandRank());
+    }
+
+    @Test
+    public void testHandRankStraightWheelFlush0() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        cards.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        cards.add(new Card(CardRank.THREE, Suit.CLUBS));
+        cards.add(new Card(CardRank.TWO, Suit.CLUBS));
+        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
+        Hand hand = new Hand(cards);
+        assertEquals("Straight flush, five high", hand.describeHandRank());
+    }
+    
+    @Test
+    public void testHandRankStraightWheelFlush1() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
+        cards.add(new Card(CardRank.TWO, Suit.CLUBS));
+        cards.add(new Card(CardRank.THREE, Suit.CLUBS));
+        cards.add(new Card(CardRank.FOUR, Suit.CLUBS));
+        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        Hand hand = new Hand(cards);
+        assertEquals("Straight flush, five high", hand.describeHandRank());
+    }
+    
+    @Test
+    public void testHandRankMixedSuitStraightWheelEdge() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
+        cards.add(new Card(CardRank.TWO, Suit.SPADES));
+        cards.add(new Card(CardRank.THREE, Suit.HEARTS));
+        cards.add(new Card(CardRank.FOUR, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        Hand hand = new Hand(cards);
+        assertEquals("Straight, five high", hand.describeHandRank());
+    }
+
+    @Test
+    public void testHandRankFourAces() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
+        cards.add(new Card(CardRank.ACE, Suit.SPADES));
+        cards.add(new Card(CardRank.ACE, Suit.HEARTS));
+        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
+        cards.add(new Card(CardRank.ACE, Suit.DIAMONDS));
+        Hand hand = new Hand(cards);
+        assertEquals("4 of a kind of aces", hand.describeHandRank());
+    }
+
+    @Test
+    public void testHandRankLowRankFullHouse() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.TWO, Suit.CLUBS));
+        cards.add(new Card(CardRank.TWO, Suit.SPADES));
+        cards.add(new Card(CardRank.THREE, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.TWO, Suit.HEARTS));
+        cards.add(new Card(CardRank.THREE, Suit.DIAMONDS));
+        Hand hand = new Hand(cards);
+        assertEquals("Full house, twos over threes", hand.describeHandRank());
+    }
+
+    @Test
+    public void testHandRankLowRankFlush() {
+        ArrayList<Card> cards = new ArrayList<Card>(5);
+        cards.add(new Card(CardRank.TWO, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.THREE, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.FOUR, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.SIX, Suit.DIAMONDS));
+        cards.add(new Card(CardRank.SEVEN, Suit.DIAMONDS));
+        Hand hand = new Hand(cards);
+        assertEquals("Flush, seven high", hand.describeHandRank());
+    }
+
+    @Test
     public void testCompareStraightToStraight() {
         ArrayList<Card> lowStraightList = new ArrayList<Card>(5);
         lowStraightList.add(new Card(CardRank.NINE, Suit.CLUBS));
@@ -958,88 +1042,5 @@ public class HandTest {
 
         assertTrue(onePairHand.compareTo(highCardHand) > 0);
     }
-
-    @Test
-    public void testHandRank4OfAKindEdge() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.NINE, Suit.CLUBS));
-        cards.add(new Card(CardRank.NINE, Suit.HEARTS));
-        cards.add(new Card(CardRank.NINE, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.NINE, Suit.SPADES));
-        cards.add(new Card(CardRank.NINE, Suit.CLUBS));
-        Hand hand = new Hand(cards);
-        assertEquals("4 of a kind of nines", hand.describeHandRank());
-    }
-
-    @Test
-    public void testHandRankStraightWheelFlush0() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
-        cards.add(new Card(CardRank.FOUR, Suit.CLUBS));
-        cards.add(new Card(CardRank.THREE, Suit.CLUBS));
-        cards.add(new Card(CardRank.TWO, Suit.CLUBS));
-        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
-        Hand hand = new Hand(cards);
-        assertEquals("Straight flush, five high", hand.describeHandRank());
-    }
-    
-    @Test
-    public void testHandRankStraightWheelFlush1() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
-        cards.add(new Card(CardRank.TWO, Suit.CLUBS));
-        cards.add(new Card(CardRank.THREE, Suit.CLUBS));
-        cards.add(new Card(CardRank.FOUR, Suit.CLUBS));
-        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
-        Hand hand = new Hand(cards);
-        assertEquals("Straight flush, five high", hand.describeHandRank());
-    }
-    
-    @Test
-    public void testHandRankMixedSuitStraightWheelEdge() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
-        cards.add(new Card(CardRank.TWO, Suit.SPADES));
-        cards.add(new Card(CardRank.THREE, Suit.HEARTS));
-        cards.add(new Card(CardRank.FOUR, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
-        Hand hand = new Hand(cards);
-        assertEquals("Straight, five high", hand.describeHandRank());
-    }
-
-    @Test
-    public void testHandRankFourAces() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.ACE, Suit.CLUBS));
-        cards.add(new Card(CardRank.ACE, Suit.SPADES));
-        cards.add(new Card(CardRank.ACE, Suit.HEARTS));
-        cards.add(new Card(CardRank.FIVE, Suit.CLUBS));
-        cards.add(new Card(CardRank.ACE, Suit.DIAMONDS));
-        Hand hand = new Hand(cards);
-        assertEquals("4 of a kind of aces", hand.describeHandRank());
-    }
-
-    @Test
-    public void testHandRankLowRankFullHouse() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.TWO, Suit.CLUBS));
-        cards.add(new Card(CardRank.TWO, Suit.SPADES));
-        cards.add(new Card(CardRank.THREE, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.TWO, Suit.HEARTS));
-        cards.add(new Card(CardRank.THREE, Suit.DIAMONDS));
-        Hand hand = new Hand(cards);
-        assertEquals("Full house, twos over threes", hand.describeHandRank());
-    }
-
-    @Test
-    public void testHandRankLowRankFlush() {
-        ArrayList<Card> cards = new ArrayList<Card>(5);
-        cards.add(new Card(CardRank.TWO, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.THREE, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.FOUR, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.SIX, Suit.DIAMONDS));
-        cards.add(new Card(CardRank.SEVEN, Suit.DIAMONDS));
-        Hand hand = new Hand(cards);
-        assertEquals("Flush, seven high", hand.describeHandRank());
-    }
 }
+    
